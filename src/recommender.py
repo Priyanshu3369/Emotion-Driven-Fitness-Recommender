@@ -1,3 +1,14 @@
+# Sweet motivational messages for each emotion
+sweet_messages = {
+    'joy': "You're radiating joy! Let's dance it out and keep the good vibes flowing!",
+    'sadness': "It's okay to feel down. Let's uplift your spirit with something soothing.",
+    'anger': "Take a deep breath — let's channel that energy into something powerful.",
+    'fear': "You're safe and strong. Gentle movements will help ease your mind.",
+    'love': "You're surrounded by love. Let's embrace it with mindful exercises.",
+    'surprise': "Something unexpected? Let’s turn that surprise into an adventure!"
+}
+
+# Fitness activities and YouTube video links for each emotion
 emotion_fitness_map = {
     'joy': [
         {"activity": "Dance Workout", "video": "https://www.youtube.com/watch?v=Qj7D4bcgYk8"},
@@ -30,13 +41,8 @@ emotion_fitness_map = {
     ]
 }
 
-# ✅ Fixed function
-def recommend_fitness(emotion):
-    return emotion_fitness_map.get(emotion, [{"activity": "Walking", "video": "https://www.youtube.com/watch?v=I8RR-uP6D6k"}])
-
-# ✅ Example usage
-emotion = "anger"
-recommendations = recommend_fitness(emotion)
-
-for rec in recommendations:
-    print(f"{rec['activity']}: {rec['video']}")
+# Function to get message and video recommendations
+def get_recommendations(emotion):
+    message = sweet_messages.get(emotion, "Let's move and feel better!")
+    videos = emotion_fitness_map.get(emotion, [])
+    return message, videos

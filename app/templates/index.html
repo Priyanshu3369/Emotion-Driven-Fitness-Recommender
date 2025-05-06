@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion-Driven Fitness Recommender</title>
+</head>
+<body>
+    <h1>How are you feeling today?</h1>
+
+    <!-- Form to take user input -->
+    <form method="POST">
+        <textarea name="user_input" rows="4" cols="50" placeholder="Tell us how you're feeling...">{{ user_input }}</textarea><br><br>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if user_input %}
+        <h3>Emotion: {{ emotion }}</h3>
+        <p>Here’s a fitness activity for your current mood:</p>
+        
+        <ul>
+        {% for rec in recommendations %}
+            <li>
+                <h4>{{ rec['activity'] }}</h4>
+                <a href="{{ rec['video'] }}" target="_blank">Watch video</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
