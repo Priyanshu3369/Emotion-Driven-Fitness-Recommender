@@ -1,31 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotion-Driven Fitness Recommender</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emotion-Driven Fitness Recommender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #f0f4f8;
+      --bg-dark: #121417;
+      --card-light: #ffffff;
+      --card-dark: #1e2126;
+      --text-light: #1e293b;
+      --text-dark: #e2e8f0;
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      padding: 30px 20px;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    form {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 600px;
+      height: 130px;
+      padding: 15px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      resize: none;
+      background-color: var(--card-light);
+      color: var(--text-light);
+      transition: all 0.3s ease;
+    }
+
+    body.dark textarea {
+      background-color: var(--card-dark);
+      color: var(--text-dark);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 28px;
+      font-size: 1em;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    h3 {
+      font-size: 1.6em;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.05em;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-top: 30px;
+    }
+
+    li {
+      background: var(--card-light);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    body.dark li {
+      background: var(--card-dark);
+    }
+
+    li:hover {
+      transform: translateY(-6px);
+    }
+
+    .thumbnail-wrapper {
+      position: relative;
+      display: block;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .thumbnail-wrapper img.thumbnail {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .thumbnail-wrapper img.play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      transform: translate(-50%, -50%);
+      opacity: 0.85;
+      transition: transform 0.2s ease;
+    }
+
+    .thumbnail-wrapper:hover img.thumbnail {
+      transform: scale(1.03);
+    }
+
+    .thumbnail-wrapper:hover img.play-button {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* Toggle container */
+    .toggle-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .toggle-container label {
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    /* Toggle switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: var(--secondary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+  </style>
 </head>
 <body>
-    <h1>How are you feeling today?</h1>
 
-    <!-- Form to take user input -->
-    <form method="POST">
-        <textarea name="user_input" rows="4" cols="50" placeholder="Tell us how you're feeling...">{{ user_input }}</textarea><br><br>
-        <button type="submit">Get Recommendations</button>
-    </form>
+  <div class="toggle-container">
+    <label>Dark Mode</label>
+    <label class="switch">
+      <input type="checkbox" id="themeToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
 
-    {% if user_input %}
-        <h3>Emotion: {{ emotion }}</h3>
-        <p>Here’s a fitness activity for your current mood:</p>
-        
-        <ul>
-        {% for rec in recommendations %}
-            <li>
-                <h4>{{ rec['activity'] }}</h4>
-                <a href="{{ rec['video'] }}" target="_blank">Watch video</a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+  <h1>How are you feeling today?</h1>
+
+  <form method="POST">
+    <textarea name="user_input" placeholder="Tell us how you're feeling...">{{ user_input }}</textarea><br>
+    <button type="submit">Get Recommendations</button>
+  </form>
+
+  {% if user_input %}
+    <h3>Emotion: {{ emotion }}</h3>
+    <p>{{ message }}</p>
+    <p>Here’s a fitness activity for your current mood:</p>
+
+    <ul>
+    {% for rec in recommendations %}
+      <li>
+        <h4>{{ rec['activity'] }}</h4>
+        <a href="{{ rec['video'] }}" target="_blank" class="thumbnail-wrapper">
+          <img class="thumbnail" src="https://img.youtube.com/vi/{{ rec['video_id'] }}/hqdefault.jpg" alt="YouTube Thumbnail">
+          <img class="play-button" src="https://img.icons8.com/ios-filled/100/ffffff/play--v1.png" alt="Play Button">
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const textarea = document.querySelector("textarea");
+      const form = document.querySelector("form");
+      const toggle = document.getElementById("themeToggle");
+
+      textarea.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          form.submit();
+        }
+      });
+
+      toggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark", toggle.checked);
+        localStorage.setItem("theme", toggle.checked ? "dark" : "light");
+      });
+
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        toggle.checked = true;
+      }
+    });
+  </script>
+
 </body>
 </html>

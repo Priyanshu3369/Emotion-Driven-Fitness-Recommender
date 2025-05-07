@@ -9,7 +9,7 @@ from recommender import get_recommendations
 
 app = Flask(__name__)
 
-# Route for home page (where users input their feelings)
+# Route for home page
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -18,16 +18,25 @@ def home():
         # Predict emotion from user input
         predicted_emotion = predict_emotion(user_input)
         
-        # Get fitness recommendations based on predicted emotion
-        recommendations = get_recommendations(predicted_emotion)
+        # Get motivational message and video recommendations
+        motivational_message, recommendation_list = get_recommendations(predicted_emotion)
 
-        return render_template('index.html', 
-                               user_input=user_input, 
-                               emotion=predicted_emotion, 
-                               recommendations=recommendations)
+        return render_template(
+            'index.html',
+            user_input=user_input,
+            emotion=predicted_emotion,
+            message=motivational_message,
+            recommendations=recommendation_list
+        )
     
-    return render_template('index.html')
+    # For GET request, just render the form with no content
+    return render_template(
+        'index.html',
+        user_input=None,
+        emotion=None,
+        message=None,
+        recommendations=None
+    )
 
-# Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)
