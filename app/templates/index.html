@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Emotion-Driven Fitness Recommender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitMood</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -23,7 +24,7 @@
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: all 0.3s ease;
-      padding: 30px 20px;
+      padding: 0;
     }
 
     body.dark {
@@ -31,9 +32,145 @@
       color: var(--text-dark);
     }
 
+    /* Navbar */
+    .navbar {
+      background-color: var(--card-light);
+      padding: 10px 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeSlideIn 0.5s ease-out forwards;
+    }
+
+    body.dark .navbar {
+      background-color: var(--card-dark);
+    }
+
+    .nav-container {
+      max-width: 1150px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo span {
+      margin-left: 6px;
+    }
+
+    body.dark .nav-logo span {
+      color: var(--text-dark);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1em;
+      color: var(--text-light);
+      transition: color 0.3s ease;
+    }
+
+    body.dark .nav-links a {
+      color: var(--text-dark);
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Toggle container */
+    .toggle-container {
+      display: flex;
+      justify-content: flex-end;
+      margin: 10px 20px 0 0;
+      align-items: center;
+    }
+
+    .toggle-container label {
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked+.slider {
+      background-color: var(--secondary);
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Main Content */
+    main {
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
     h1 {
       text-align: center;
-      font-size: 2.8em;
+      font-size: 2.6em;
       margin-bottom: 20px;
       font-weight: 600;
     }
@@ -79,7 +216,7 @@
 
     button:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
 
     h3 {
@@ -149,63 +286,38 @@
       transform: translate(-50%, -50%) scale(1.1);
     }
 
-    /* Toggle container */
-    .toggle-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-      align-items: center;
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px 20px;
+      background-color: var(--card-light);
+      color: var(--text-light);
+      font-size: 0.95em;
+      margin-top: 40px;
+      transition: all 0.3s ease;
     }
 
-    .toggle-container label {
-      font-weight: 600;
-      margin-right: 10px;
-    }
-
-    /* Toggle switch */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #ccc;
-      border-radius: 34px;
-      transition: 0.4s;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      border-radius: 50%;
-      transition: 0.4s;
-    }
-
-    input:checked + .slider {
-      background-color: var(--secondary);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(24px);
+    body.dark .footer {
+      background-color: var(--card-dark);
+      color: var(--text-dark);
     }
   </style>
 </head>
+
 <body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">🏋️‍♂️ <span>FitMood</span></div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
 
   <div class="toggle-container">
     <label>Dark Mode</label>
@@ -215,30 +327,38 @@
     </label>
   </div>
 
-  <h1>How are you feeling today?</h1>
+  <main>
+    <h1>How are you feeling today?</h1>
 
-  <form method="POST">
-    <textarea name="user_input" placeholder="Tell us how you're feeling...">{{ user_input }}</textarea><br>
-    <button type="submit">Get Recommendations</button>
-  </form>
+    <form method="POST">
+      <textarea name="user_input" placeholder="Tell us how you're feeling...">{{ user_input }}</textarea><br>
+      <button type="submit">Get Recommendations</button>
+    </form>
 
-  {% if user_input %}
+    {% if user_input %}
     <h3>Emotion: {{ emotion }}</h3>
     <p>{{ message }}</p>
     <p>Here’s a fitness activity for your current mood:</p>
 
     <ul>
-    {% for rec in recommendations %}
+      {% for rec in recommendations %}
       <li>
         <h4>{{ rec['activity'] }}</h4>
         <a href="{{ rec['video'] }}" target="_blank" class="thumbnail-wrapper">
-          <img class="thumbnail" src="https://img.youtube.com/vi/{{ rec['video_id'] }}/hqdefault.jpg" alt="YouTube Thumbnail">
+          <img class="thumbnail" src="https://img.youtube.com/vi/{{ rec['video_id'] }}/hqdefault.jpg"
+            alt="YouTube Thumbnail">
           <img class="play-button" src="https://img.icons8.com/ios-filled/100/ffffff/play--v1.png" alt="Play Button">
         </a>
       </li>
-    {% endfor %}
+      {% endfor %}
     </ul>
-  {% endif %}
+    {% endif %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 FitMood. All rights reserved. | Designed with ❤️ for your well-being.</p>
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -267,4 +387,5 @@
   </script>
 
 </body>
+
 </html>
