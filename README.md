@@ -14,23 +14,14 @@ A web application that predicts the emotion behind user-submitted text and recom
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/emotion-exercise-recommender.git
-cd emotion-exercise-recommender
+git clone https://github.com/Priyanshu3369/Emotion-Driven-Fitness-Recommender.git
+cd Emotion-Driven-Fitness-Recommender
 2. Create a virtual environment (recommended)
-bash
-Copy
-Edit
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 3. Install dependencies
-bash
-Copy
-Edit
 pip install -r requirements.txt
 4. Run the Flask app
-bash
-Copy
-Edit
 python app.py
 Then open your browser and go to http://localhost:5000
 ```
